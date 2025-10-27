@@ -1,0 +1,65 @@
+<div class="container-fluid p-5">
+    <div class="row">
+        <div class="col-8">
+            <h1>Administrador de peliculas</h1>
+        </div>
+        <div class="col-2">
+            <div class="d-grid gap-2">
+                <button type="button" class="btn btn-success" (click)="agregarPelicula()">
+                    Agregar pelicula
+                </button>
+            </div>
+
+        </div>
+
+        <div class="col-2">
+            <div class="d-grid gap-2">
+                <button type="button" class="btn btn-primary">
+                    Vista Ciente
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="table-responsive">
+            <table class="table table-dark">
+                <thead>
+                    <tr>
+                        <th scope="col">Poster</th>
+                        <th scope="col">Titulo</th>
+                        <th scope="col">Género</th>
+                        <th scope="col">Año de estreno</th>
+                        <th scope="col">Calificación</th>
+                        <th scope="col">Opciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="">
+                        <td scope="row"></td>
+                        <td>Interestellar</td>
+                        <td>Ciencia ficción</td>
+                        <td>2010</td>
+                        <td>8.8</td>
+                        <td>
+                            <button type="button" class="btn btn-warning btn-s">
+                                Editar
+                            </button>
+                            <button type="button" class="btn btn-danger btn-s ms-2">
+                                Eliminar
+                            </button>
+
+                        </td>
+                    </tr>
+                    <tr class="">
+                        <td scope="row">Item</td>
+                        <td>Item</td>
+                        <td>Item</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>

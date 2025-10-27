@@ -1,0 +1,126 @@
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="container py-3">
+
+  <div class="mb-3">
+    <label for="title" class="form-label">Título</label>
+    <input id="title" formControlName="title" type="text" class="form-control"
+           placeholder="Ingrese el título de la película">
+    @if (title?.touched && title?.invalid) {
+      <div class="invalid-feedback d-block">
+        @if (title?.errors?.['required']) {
+          <div>El título es obligatorio.</div>
+        }
+        @if (title?.errors?.['maxlength']) {
+          <div>Máximo 200 caracteres.</div>
+        }
+      </div>
+    }
+  </div>
+
+  <div class="mb-3">
+    <label for="genre" class="form-label">Género</label>
+    <select id="genre" formControlName="genre" class="form-select">
+      <option value="" disabled>Seleccione un género</option>
+
+      @for (g of genres; track g) {
+        <option [value]="g">{{ g }}</option>
+      }
+    </select>
+
+    @if (genre?.touched && genre?.invalid) {
+      <div class="invalid-feedback d-block">
+        @if (genre?.errors?.['required']) {
+          <div>El género es obligatorio.</div>
+        }
+      </div>
+    }
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-12 col-md-6">
+      <label for="year" class="form-label">Año de estreno</label>
+      <input id="year" formControlName="year" type="number" class="form-control" placeholder="Ej. 2023">
+
+      @if (year?.touched && year?.invalid) {
+        <div class="invalid-feedback d-block">
+          @if (year?.errors?.['required']) {
+            <div>El año es obligatorio.</div>
+          }
+          @if (year?.errors?.['yearInvalid']) {
+            <div>Debe ser un número entero.</div>
+          }
+          @if (year?.errors?.['yearOutOfRange']) {
+            <div>
+              Entre {{ year?.errors?.['yearOutOfRange']?.min }}
+              y {{ year?.errors?.['yearOutOfRange']?.max }}.
+            </div>
+          }
+        </div>
+      }
+    </div>
+
+    <div class="col-12 col-md-6 mt-3 mt-md-0">
+      <label for="rating" class="form-label">Calificación (0 - 10)</label>
+      <input id="rating" formControlName="rating" type="number" step="0.1" class="form-control"
+             placeholder="Ej. 7.5">
+
+      @if (rating?.touched && rating?.invalid) {
+        <div class="invalid-feedback d-block">
+          @if (rating?.errors?.['required']) {
+            <div>La calificación es obligatoria.</div>
+          }
+          @if (rating?.errors?.['ratingInvalid']) {
+            <div>Debe ser un número.</div>
+          }
+          @if (rating?.errors?.['ratingOutOfRange']) {
+            <div>
+              Entre {{ rating?.errors?.['ratingOutOfRange']?.min }}
+              y {{ rating?.errors?.['ratingOutOfRange']?.max }}.
+            </div>
+          }
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Póster</label>
+
+    <div
+      class="border border-2 border-secondary rounded position-relative p-3 text-center"
+      (drop)="onDropFile($event)"
+      (dragover)="onDragOver($event)"
+    >
+      <input id="posterInput"
+             type="file"
+             accept="image/*"
+             (change)="onFileSelected($event)"
+             class="position-absolute top-0 start-0 w-100 h-100 opacity-0"
+             style="cursor: pointer">
+
+      @if (!imagePreview) {
+        <p class="text-muted mb-0">
+          Arrastra aquí una imagen o haz clic para seleccionar (PNG, JPEG, WEBP | máx 5 MB)
+        </p>
+      }
+
+      @if (imagePreview) {
+        <img [src]="imagePreview"
+             alt="Previsualización del póster"
+             class="img-fluid rounded mb-2"
+             style="max-height: 240px; object-fit: contain;">
+        <div>
+          <button type="button" class="btn btn-outline-danger btn-sm" (click)="clearImage()">
+            Eliminar imagen
+          </button>
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-end">
+    <button type="submit" class="btn btn-primary">
+      Guardar película
+    </button>
+  </div>
+
+</form>
