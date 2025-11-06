@@ -17,10 +17,25 @@
   </div>
 
   <div class="mb-3">
+    <label for="sinopsis" class="form-label">Sinopsis</label>
+    <textarea id="sinopsis" formControlName="sinopsis" rows="3" class="form-control"
+              placeholder="Breve descripción de la película"></textarea>
+    @if (sinopsis?.touched && sinopsis?.invalid) {
+      <div class="invalid-feedback d-block">
+        @if (sinopsis?.errors?.['required']) {
+          <div>La sinopsis es obligatoria.</div>
+        }
+        @if (sinopsis?.errors?.['maxlength']) {
+          <div>Máximo 500 caracteres.</div>
+        }
+      </div>
+    }
+  </div>
+
+  <div class="mb-3">
     <label for="genre" class="form-label">Género</label>
     <select id="genre" formControlName="genre" class="form-select">
       <option value="" disabled>Seleccione un género</option>
-
       @for (g of genres; track g) {
         <option [value]="g">{{ g }}</option>
       }
@@ -69,7 +84,7 @@
             <div>La calificación es obligatoria.</div>
           }
           @if (rating?.errors?.['ratingInvalid']) {
-            <div>Debe ser un número.</div>
+            <div>Debe ser un número válido.</div>
           }
           @if (rating?.errors?.['ratingOutOfRange']) {
             <div>
@@ -83,38 +98,29 @@
   </div>
 
   <div class="mb-3">
-    <label class="form-label">Póster</label>
+    <label for="poster" class="form-label">URL del póster</label>
+    <input id="poster" formControlName="poster" type="url" class="form-control"
+           placeholder="https://ejemplo.com/poster.jpg" (input)="updatePreview()">
 
-    <div
-      class="border border-2 border-secondary rounded position-relative p-3 text-center"
-      (drop)="onDropFile($event)"
-      (dragover)="onDragOver($event)"
-    >
-      <input id="posterInput"
-             type="file"
-             accept="image/*"
-             (change)="onFileSelected($event)"
-             class="position-absolute top-0 start-0 w-100 h-100 opacity-0"
-             style="cursor: pointer">
+    @if (poster?.touched && poster?.invalid) {
+      <div class="invalid-feedback d-block">
+        @if (poster?.errors?.['required']) {
+          <div>La URL del póster es obligatoria.</div>
+        }
+        @if (poster?.errors?.['pattern']) {
+          <div>Debe ser una URL válida que termine en .jpg, .jpeg, .png o .webp.</div>
+        }
+      </div>
+    }
 
-      @if (!imagePreview) {
-        <p class="text-muted mb-0">
-          Arrastra aquí una imagen o haz clic para seleccionar (PNG, JPEG, WEBP | máx 5 MB)
-        </p>
-      }
-
-      @if (imagePreview) {
+    @if (imagePreview) {
+      <div class="text-center mt-3">
         <img [src]="imagePreview"
              alt="Previsualización del póster"
-             class="img-fluid rounded mb-2"
+             class="img-fluid rounded"
              style="max-height: 240px; object-fit: contain;">
-        <div>
-          <button type="button" class="btn btn-outline-danger btn-sm" (click)="clearImage()">
-            Eliminar imagen
-          </button>
-        </div>
-      }
-    </div>
+      </div>
+    }
   </div>
 
   <div class="d-flex justify-content-end">
@@ -122,5 +128,4 @@
       Guardar película
     </button>
   </div>
-
 </form>

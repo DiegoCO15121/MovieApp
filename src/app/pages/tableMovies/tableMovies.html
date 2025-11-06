@@ -36,12 +36,16 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @for(movie of movies; track movie.id) {
                     <tr class="">
-                        <td scope="row"></td>
-                        <td>Interestellar</td>
-                        <td>Ciencia ficción</td>
-                        <td>2010</td>
-                        <td>8.8</td>
+                        <td>
+                            <img src={{movie.poster_url}} alt="poster" class="img-fluid rounded" style="max-width: 80px; max-height: 120px; object-fit: cover;">
+                        </td>
+                        
+                        <td>{{movie.title}} </td>
+                        <td>{{movie.genre}} </td>
+                        <td>{{movie.releaseYear}}</td>
+                        <td>{{movie.raiting}}</td>
                         <td>
                             <button type="button" class="btn btn-warning btn-s">
                                 Editar
@@ -52,11 +56,13 @@
 
                         </td>
                     </tr>
-                    <tr class="">
+                    }
+
+                    <!--  <tr class="">
                         <td scope="row">Item</td>
                         <td>Item</td>
                         <td>Item</td>
-                    </tr>
+                    </tr> -->
                 </tbody>
             </table>
         </div>
