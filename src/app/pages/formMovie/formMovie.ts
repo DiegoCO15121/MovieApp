@@ -1,9 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  AbstractControl,
+  ValidationErrors,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { MovieService } from '../../services/movie-service';
 import { Movie } from '../../interfaces/movie.interface';
+import Swal from 'sweetalert2';
 
 function yearRangeValidator(min: number, maxProvider: () => number) {
   return (control: AbstractControl): ValidationErrors | null => {
@@ -30,7 +38,13 @@ function ratingValidator(min: number, max: number) {
   selector: 'app-form-movie',
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './formMovie.html',
-  styles: [`:host { display: block; }`]
+  styles: [
+    `
+      :host {
+        display: block;
+      }
+    `,
+  ],
 })
 export class FormMovie {
   form: FormGroup;
@@ -40,8 +54,16 @@ export class FormMovie {
   private movieService = inject(MovieService);
 
   genres = [
-    'Acción', 'Comedia', 'Drama', 'Terror', 'Ciencia ficción',
-    'Animación', 'Documental', 'Romance', 'Aventura', 'Thriller'
+    'Acción',
+    'Comedia',
+    'Drama',
+    'Terror',
+    'Ciencia ficción',
+    'Animación',
+    'Documental',
+    'Romance',
+    'Aventura',
+    'Thriller',
   ];
 
   constructor(private fb: FormBuilder) {
@@ -53,19 +75,29 @@ export class FormMovie {
       genre: ['', [Validators.required]],
       year: ['', [Validators.required, yearRangeValidator(1888, currentYear)]],
       rating: ['', [Validators.required, ratingValidator(0, 10)]],
-      poster: [
-        ''
-      ]
+      poster: [''],
     });
   }
 
   // Getters convenientes
-  get title() { return this.form.get('title'); }
-  get sinopsis() { return this.form.get('sinopsis'); }
-  get genre() { return this.form.get('genre'); }
-  get year() { return this.form.get('year'); }
-  get rating() { return this.form.get('rating'); }
-  get poster() { return this.form.get('poster'); }
+  get title() {
+    return this.form.get('title');
+  }
+  get sinopsis() {
+    return this.form.get('sinopsis');
+  }
+  get genre() {
+    return this.form.get('genre');
+  }
+  get year() {
+    return this.form.get('year');
+  }
+  get rating() {
+    return this.form.get('rating');
+  }
+  get poster() {
+    return this.form.get('poster');
+  }
 
   updatePreview() {
     const url = this.poster?.value;
@@ -84,7 +116,7 @@ export class FormMovie {
       genre: this.form.value.genre,
       releaseYear: Number(this.form.value.year),
       raiting: Number(this.form.value.rating),
-      poster_url: this.form.value.poster
+      poster_url: this.form.value.poster,
     };
 
     console.log('Datos listos para enviar:', payload);
@@ -93,10 +125,17 @@ export class FormMovie {
       next: (pelicula) => {
         console.log('Película creada:', pelicula);
         this.router.navigate(['/table-movies']);
+        Swal.fire({
+          title: 'Agregada',
+          text: `La película fue agregada correctamente.`,
+          icon: 'success',
+          timer: 2000,
+          showConfirmButton: false,
+        });
       },
       error: (error) => {
         console.error('Error al crear la película:', error);
-      }
+      },
     });
   }
 }

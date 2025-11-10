@@ -16,4 +16,8 @@ export class MovieService {
     postMovie(payload: Movie){
         return this.http.post(`${this.url}movie`, payload);
     }
+    
+    deleteMovie(payload: Movie["id"]) {
+        return this.http.delete(`${this.url}movie/${payload}`,)
+    }
 }
