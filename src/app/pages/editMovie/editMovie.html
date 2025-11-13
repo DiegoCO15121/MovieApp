@@ -1,0 +1,131 @@
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="container py-3">
+
+  <div class="mb-3">
+    <label for="title" class="form-label">Título</label>
+    <input id="title" formControlName="title" type="text" class="form-control"
+           placeholder="Ingrese el título de la película">
+    @if (title?.touched && title?.invalid) {
+      <div class="invalid-feedback d-block">
+        @if (title?.errors?.['required']) {
+          <div>El título es obligatorio.</div>
+        }
+        @if (title?.errors?.['maxlength']) {
+          <div>Máximo 200 caracteres.</div>
+        }
+      </div>
+    }
+  </div>
+
+  <div class="mb-3">
+    <label for="sinopsis" class="form-label">Sinopsis</label>
+    <textarea id="sinopsis" formControlName="sinopsis" rows="3" class="form-control"
+              placeholder="Breve descripción de la película"></textarea>
+    @if (sinopsis?.touched && sinopsis?.invalid) {
+      <div class="invalid-feedback d-block">
+        @if (sinopsis?.errors?.['required']) {
+          <div>La sinopsis es obligatoria.</div>
+        }
+        @if (sinopsis?.errors?.['maxlength']) {
+          <div>Máximo 500 caracteres.</div>
+        }
+      </div>
+    }
+  </div>
+
+  <div class="mb-3">
+    <label for="genre" class="form-label">Género</label>
+    <select id="genre" formControlName="genre" class="form-select">
+      <option value="" disabled>Seleccione un género</option>
+      @for (g of genres; track g) {
+        <option [value]="g">{{ g }}</option>
+      }
+    </select>
+
+    @if (genre?.touched && genre?.invalid) {
+      <div class="invalid-feedback d-block">
+        @if (genre?.errors?.['required']) {
+          <div>El género es obligatorio.</div>
+        }
+      </div>
+    }
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-12 col-md-6">
+      <label for="year" class="form-label">Año de estreno</label>
+      <input id="year" formControlName="year" type="number" class="form-control" placeholder="Ej. 2023">
+
+      @if (year?.touched && year?.invalid) {
+        <div class="invalid-feedback d-block">
+          @if (year?.errors?.['required']) {
+            <div>El año es obligatorio.</div>
+          }
+          @if (year?.errors?.['yearInvalid']) {
+            <div>Debe ser un número entero.</div>
+          }
+          @if (year?.errors?.['yearOutOfRange']) {
+            <div>
+              Entre {{ year?.errors?.['yearOutOfRange']?.min }}
+              y {{ year?.errors?.['yearOutOfRange']?.max }}.
+            </div>
+          }
+        </div>
+      }
+    </div>
+
+    <div class="col-12 col-md-6 mt-3 mt-md-0">
+      <label for="rating" class="form-label">Calificación (0 - 10)</label>
+      <input id="rating" formControlName="rating" type="number" step="0.1" class="form-control"
+             placeholder="Ej. 7.5">
+
+      @if (rating?.touched && rating?.invalid) {
+        <div class="invalid-feedback d-block">
+          @if (rating?.errors?.['required']) {
+            <div>La calificación es obligatoria.</div>
+          }
+          @if (rating?.errors?.['ratingInvalid']) {
+            <div>Debe ser un número válido.</div>
+          }
+          @if (rating?.errors?.['ratingOutOfRange']) {
+            <div>
+              Entre {{ rating?.errors?.['ratingOutOfRange']?.min }}
+              y {{ rating?.errors?.['ratingOutOfRange']?.max }}.
+            </div>
+          }
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label for="poster" class="form-label">URL del póster</label>
+    <input id="poster" formControlName="poster" type="url" class="form-control"
+           placeholder="https://ejemplo.com/poster.jpg" (input)="updatePreview()">
+
+    @if (poster?.touched && poster?.invalid) {
+      <div class="invalid-feedback d-block">
+        @if (poster?.errors?.['required']) {
+          <div>La URL del póster es obligatoria.</div>
+        }
+        @if (poster?.errors?.['pattern']) {
+          <div>Debe ser una URL válida que termine en .jpg, .jpeg, .png o .webp.</div>
+        }
+      </div>
+    }
+
+    @if (imagePreview) {
+      <div class="text-center mt-3">
+        <img [src]="imagePreview"
+             alt="Previsualización del póster"
+             class="img-fluid rounded"
+             style="max-height: 240px; object-fit: contain;">
+      </div>
+    }
+  </div>
+
+  <div class="d-flex justify-content-end">
+    <button type="submit" class="btn btn-primary">
+      Actualizar película
+    </button>
+  </div>
+</form>

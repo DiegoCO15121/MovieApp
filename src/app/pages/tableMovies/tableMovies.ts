@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { MovieService } from '../../services/movie-service';
 import { __classPrivateFieldGet } from 'tslib';
 import { Movie } from '../../interfaces/movie.interface';
@@ -7,7 +7,7 @@ import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-table-movies',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './tableMovies.html',
   styles: `
     :host {

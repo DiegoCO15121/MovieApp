@@ -1,1 +1,16 @@
-<p>movies works!</p>
+<div class="container-fluid">
+  <div class="row">
+    @for (movie of movies; track movie.id) {
+      <div class="col-12 col-sm-6 col-md-3 col-lg-2 mt-3 text-center">
+
+        @if (movie.raiting > 9) {
+          <div class="badge bg-success mb-2">
+            Best movie
+          </div>
+        }
+
+        <app-movie-card [movie]="movie" />
+      </div>
+    }
+  </div>
+</div>

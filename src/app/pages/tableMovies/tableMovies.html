@@ -47,7 +47,7 @@
                         <td>{{movie.releaseYear}}</td>
                         <td>{{movie.raiting}}</td>
                         <td>
-                            <button type="button" class="btn btn-warning btn-s">
+                            <button type="button" class="btn btn-warning btn-s" [routerLink]="['/edit-movie/', movie.id ]">
                                 Editar
                             </button>
                             <button (click)="onDeleteMovie(movie.id!)" type="button" class="btn btn-danger btn-s ms-2">
